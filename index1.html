@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#5a0a16">
+    <title>Ali & Fatima · Shahi Farman</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Nastaliq+Urdu:wght@400;600&family=Amiri:wght@400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --cr: #7a0f1e;
+            --cr2: #4a0710;
+            --red: #b3141f;
+            --gold: #9a6b1f;
+            --gold2: #e9c46a;
+            --par: #f3e2bd;
+            --ink: #3b1a10;
+            --saf: #f19a1f;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            color-scheme: light
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            height: 100%;
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        html.lock {
+            overflow: hidden
+        }
+
+        body {
+            margin: 0;
+            min-height: 100%;
+            color: var(--ink);
+            font: 400 17px/1.7 'EB Garamond', Georgia, serif;
+            background: var(--cr2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M20 6C34 10 38 26 28 36C18 46 6 40 8 28C10 20 18 20 20 26C22 32 16 34 14 30M52 38C58 44 56 54 48 56C42 56 40 50 44 48' fill='none' stroke='%23e9c46a' stroke-opacity='.16' stroke-width='1.3'/%3E%3C/svg%3E");
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer
+        }
+
+        #pt {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 45
+        }
+
+        #app {
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 60px #000a
+        }
+
+        .sheet,
+        .par {
+            background: radial-gradient(ellipse at 20% 10%, #fff3d6aa, transparent 50%), radial-gradient(ellipse at 85% 60%, #c9954455, transparent 55%), var(--par), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .28 0 0 0 0 .1 0 0 0 .2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")
+        }
+
+        .par {
+            background-color: var(--par);
+            box-shadow: inset 0 0 70px #9a6b1f55, inset 0 0 8px #5a2e0c66
+        }
+
+        /* hero */
+        .hero {
+            position: relative;
+            height: 100svh;
+            min-height: 680px;
+            overflow: hidden
+        }
+
+        .sheet {
+            position: absolute;
+            inset: 0;
+            clip-path: inset(calc(50% - 30px) 0);
+            transition: clip-path 3.2s cubic-bezier(.6, 0, .2, 1) .5s;
+            box-shadow: inset 0 0 90px #9a6b1f66
+        }
+
+        .go .sheet {
+            clip-path: inset(0)
+        }
+
+        .rod {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 26px;
+            border-radius: 13px;
+            z-index: 6;
+            background: linear-gradient(#5a2e0c, #b97a2e 30%, #f0c46a 48%, #a8671f 70%, #4a240a);
+            box-shadow: 0 8px 14px #0008;
+            opacity: 0;
+            transition: top 3.2s cubic-bezier(.6, 0, .2, 1) .5s, bottom 3.2s cubic-bezier(.6, 0, .2, 1) .5s, opacity .5s .5s
+        }
+
+        .rod:before,
+        .rod:after {
+            content: "";
+            position: absolute;
+            top: -5px;
+            width: 20px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #fff0b0, #d9a43c 55%, #7a5014)
+        }
+
+        .rod:before {
+            left: -4px
+        }
+
+        .rod:after {
+            right: -4px
+        }
+
+        .rt {
+            top: calc(50% - 56px)
+        }
+
+        .rb {
+            bottom: calc(50% - 56px)
+        }
+
+        .go .rod {
+            opacity: 1
+        }
+
+        .go .rt {
+            top: 0
+        }
+
+        .go .rb {
+            bottom: 0
+        }
+
+        .rb.done {
+            opacity: 0;
+            transition: opacity .8s
+        }
+
+        .roll {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: min(88%, 380px);
+            height: 90px;
+            margin-top: -45px;
+            transform: translateX(-50%);
+            z-index: 5;
+            border-radius: 45px;
+            background: linear-gradient(#a78552, #e8d2a2 22%, #fff4d8 48%, #ead2a0 72%, #9a7840);
+            box-shadow: 0 14px 30px #000b;
+            transition: opacity .6s .9s
+        }
+
+        .roll:before,
+        .roll:after {
+            content: "";
+            position: absolute;
+            top: -4px;
+            bottom: -4px;
+            width: 24px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #7a5014, #f0c46a 40%, #a8671f)
+        }
+
+        .roll:before {
+            left: -8px
+        }
+
+        .roll:after {
+            right: -8px
+        }
+
+        .go .roll {
+            opacity: 0
+        }
+
+        .tie {
+            position: absolute;
+            left: 50%;
+            top: -22px;
+            bottom: -22px;
+            width: 56px;
+            margin-left: -28px;
+            z-index: 2;
+            background: linear-gradient(90deg, #6b0c18, #c4222f 50%, #6b0c18);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 92%, 0 100%);
+            transition: transform 1.4s cubic-bezier(.5, -.4, .6, 1) .1s
+        }
+
+        .go .tie {
+            transform: translateY(120vh) rotate(14deg)
+        }
+
+        .wax {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 64px;
+            height: 64px;
+            margin: -32px;
+            border-radius: 50%;
+            z-index: 3;
+            display: grid;
+            place-items: center;
+            background: radial-gradient(circle at 35% 30%, #e0505a, #a1111f 60%, #5a0a16);
+            box-shadow: 0 4px 12px #0009, inset 0 0 0 4px #ffffff22;
+            font: 700 17px 'Cinzel Decorative';
+            color: #f6d98a;
+            animation: wp 2s infinite;
+            transition: transform 1.4s cubic-bezier(.5, -.4, .6, 1) .1s
+        }
+
+        @keyframes wp {
+            50% {
+                box-shadow: 0 0 22px #ffb84a, inset 0 0 0 4px #ffffff22
+            }
+        }
+
+        .go .wax {
+            transform: translateY(120vh) rotate(-20deg);
+            animation: none
+        }
+
+        #tap {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(50% + 70px);
+            text-align: center;
+            z-index: 7;
+            font: 500 11px 'EB Garamond';
+            letter-spacing: 6px;
+            color: var(--gold2);
+            animation: fl 2s infinite;
+            transition: opacity .4s
+        }
+
+        @keyframes fl {
+            50% {
+                opacity: .3
+            }
+        }
+
+        .go #tap {
+            opacity: 0
+        }
+
+        .hc {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 90px 22px 80px
+        }
+
+        .toran {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 20px;
+            height: 150px;
+            z-index: 5;
+            pointer-events: none
+        }
+
+        .toran:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 18px;
+            background: radial-gradient(circle at 9px 9px, #f6a623 0 6px, #d9740f 7px 8px, transparent 9px) 0 0/16px 18px repeat-x;
+            opacity: 0
+        }
+
+        .go .toran:before {
+            animation: dn .8s 3s both
+        }
+
+        .st {
+            position: absolute;
+            top: 12px;
+            width: 0;
+            opacity: 0;
+            --l: 0
+        }
+
+        .go .st {
+            animation: dp 1.1s cubic-bezier(.2, .9, .3, 1.25) var(--dl) both
+        }
+
+        .st>div {
+            transform-origin: 50% 0;
+            animation: sw 3.4s ease-in-out var(--sd) infinite alternate
+        }
+
+        @keyframes sw {
+            from {
+                transform: rotate(-4deg)
+            }
+
+            to {
+                transform: rotate(4deg)
+            }
+        }
+
+        .st i {
+            display: block;
+            width: 1px;
+            height: 10px;
+            background: #9a6b1f;
+            margin: 0 auto
+        }
+
+        .mg {
+            display: block;
+            width: 17px;
+            height: 17px;
+            margin: 0 0 -3px -8.5px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffe27a 0 22%, #f6a623 24% 62%, #d9740f 66%);
+            box-shadow: 0 0 0 1px #b8550a88, inset 0 0 4px #fff6
+        }
+
+        .bl {
+            display: block;
+            width: 12px;
+            height: 14px;
+            margin: 2px 0 0 -6px;
+            border-radius: 50% 50% 40% 40%;
+            background: linear-gradient(#f4d27a, #b98a2a)
+        }
+
+        @keyframes dp {
+            from {
+                opacity: 0;
+                transform: translateY(-180px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes dn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .ink {
+            opacity: 0
+        }
+
+        .go .ink,
+        .in .ink,
+        .ink.in {
+            animation: ink 1.9s cubic-bezier(.2, .8, .2, 1) var(--d, 0s) both
+        }
+
+        @keyframes ink {
+            from {
+                opacity: 0;
+                letter-spacing: .5em;
+                filter: blur(9px)
+            }
+
+            to {
+                opacity: 1;
+                filter: blur(0)
+            }
+        }
+
+        .hero .ink {
+            --d: 99s
+        }
+
+        .go .b1 {
+            --d: 3.6s
+        }
+
+        .go .b2 {
+            --d: 4.2s
+        }
+
+        .go .b3 {
+            --d: 4.8s
+        }
+
+        .go .b4 {
+            --d: 5.4s
+        }
+
+        .go .b5 {
+            --d: 6.6s
+        }
+
+        .go .b6 {
+            --d: 7s
+        }
+
+        .bis {
+            font: 400 30px/1.8 Amiri, serif;
+            color: var(--gold)
+        }
+
+        .ur {
+            font: 600 clamp(34px, 10vw, 44px)/2 'Noto Nastaliq Urdu', serif;
+            color: var(--red)
+        }
+
+        .sm {
+            font: 500 11px 'EB Garamond';
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold)
+        }
+
+        .foil {
+            display: block;
+            font: 700 clamp(32px, 10vw, 46px)/1.15 'Cinzel Decorative';
+            background: linear-gradient(100deg, #7a4a0d 0%, #d4a23a 18%, #fff2b8 28%, #c8922c 40%, #7a4a0d 58%, #e9c46a 78%, #7a4a0d 100%);
+            background-size: 260% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: foil 4.5s linear infinite
+        }
+
+        @keyframes foil {
+            to {
+                background-position: -260% 0
+            }
+        }
+
+        .wb {
+            filter: drop-shadow(0 1px 0 #fff8) drop-shadow(0 2px 3px #3b1a1066)
+        }
+
+        .and {
+            font: italic 22px 'EB Garamond';
+            color: var(--red);
+            margin: 2px 0
+        }
+
+        .dy {
+            position: absolute;
+            bottom: 42px;
+            width: 64px;
+            z-index: 5
+        }
+
+        .dy.l {
+            left: 22px
+        }
+
+        .dy.r {
+            right: 22px
+        }
+
+        .fw {
+            transform-origin: 30px 20px;
+            transform: scale(0);
+            opacity: 0
+        }
+
+        .go .fw {
+            animation: lit 1.2s cubic-bezier(.2, 1.4, .4, 1) var(--dl) both
+        }
+
+        @keyframes lit {
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        .fk {
+            transform-origin: 30px 20px;
+            animation: fk .35s ease-in-out infinite alternate
+        }
+
+        @keyframes fk {
+            from {
+                transform: scale(1, 1) skewX(-3deg)
+            }
+
+            to {
+                transform: scale(.92, 1.1) skewX(4deg)
+            }
+        }
+
+        .gw {
+            opacity: 0
+        }
+
+        .go .gw {
+            animation: gl 2.4s var(--dl) ease-in-out infinite alternate
+        }
+
+        @keyframes gl {
+            from {
+                opacity: .35
+            }
+
+            to {
+                opacity: .8
+            }
+        }
+
+        .cue {
+            position: absolute;
+            bottom: 14px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 5;
+            font: 500 10px 'EB Garamond';
+            letter-spacing: 5px;
+            color: var(--gold);
+            opacity: 0
+        }
+
+        .go .cue {
+            animation: dn 1s 7.4s both, bob 1.8s 8.4s infinite
+        }
+
+        @keyframes bob {
+            50% {
+                transform: translateY(5px)
+            }
+        }
+
+        /* body sections */
+        .sec {
+            padding: 58px 20px;
+            text-align: center;
+            position: relative
+        }
+
+        .fr {
+            position: relative;
+            padding: 38px 18px;
+            border: 2px solid var(--gold);
+            box-shadow: inset 0 0 0 5px var(--par), inset 0 0 0 6px var(--red), inset 0 0 0 9px var(--par), inset 0 0 0 10px var(--gold)
+        }
+
+        .ro {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            animation: spin 24s linear infinite
+        }
+
+        .ro.a {
+            left: -22px;
+            top: -22px
+        }
+
+        .ro.b {
+            right: -22px;
+            top: -22px
+        }
+
+        .ro.c {
+            left: -22px;
+            bottom: -22px
+        }
+
+        .ro.d {
+            right: -22px;
+            bottom: -22px
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        h2 {
+            font: 700 24px/1.3 'Cinzel Decorative';
+            color: var(--cr);
+            margin: 6px 0 10px;
+            letter-spacing: 2px
+        }
+
+        p {
+            max-width: 320px;
+            margin: 10px auto
+        }
+
+        .orn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--red);
+            margin: 14px auto;
+            max-width: 230px;
+            font-size: 11px
+        }
+
+        .orn:before,
+        .orn:after {
+            content: "";
+            flex: 1;
+            height: 2px;
+            border-top: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold)
+        }
+
+        .rv {
+            opacity: 0;
+            transition: opacity .9s var(--d, 0s)
+        }
+
+        .rv.in {
+            opacity: 1
+        }
+
+        .fam {
+            font: 700 14px 'Cinzel Decorative';
+            letter-spacing: 1px;
+            color: var(--cr)
+        }
+
+        .stw {
+            position: relative;
+            width: 170px;
+            height: 170px;
+            margin: 22px auto 6px
+        }
+
+        .stamp {
+            width: 100%;
+            height: 100%;
+            color: var(--red);
+            opacity: 0;
+            filter: url(#rg);
+            mix-blend-mode: multiply
+        }
+
+        .in .stamp {
+            animation: stp 1.1s cubic-bezier(.3, 0, .2, 1) .3s forwards
+        }
+
+        @keyframes stp {
+            0% {
+                opacity: 0;
+                transform: scale(2.7) rotate(-20deg)
+            }
+
+            55% {
+                opacity: 1;
+                transform: scale(.9) rotate(-6deg)
+            }
+
+            72% {
+                transform: scale(1.05) rotate(-6deg)
+            }
+
+            100% {
+                opacity: .92;
+                transform: scale(1) rotate(-6deg)
+            }
+        }
+
+        .rip {
+            position: absolute;
+            inset: 6px;
+            border: 3px solid #b3141f55;
+            border-radius: 50%;
+            opacity: 0
+        }
+
+        .in .rip {
+            animation: rp 1.2s 1.1s ease-out
+        }
+
+        @keyframes rp {
+            from {
+                opacity: .9;
+                transform: scale(1)
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(1.9)
+            }
+        }
+
+        .thud {
+            animation: td .45s 1.1s
+        }
+
+        @keyframes td {
+            25% {
+                transform: translateY(5px)
+            }
+
+            55% {
+                transform: translateY(-2px)
+            }
+        }
+
+        .odw {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 22px
+        }
+
+        .odg {
+            text-align: center
+        }
+
+        .odg>div {
+            display: flex;
+            gap: 3px;
+            justify-content: center
+        }
+
+        .od {
+            width: 30px;
+            height: 44px;
+            overflow: hidden;
+            border-radius: 6px;
+            background: linear-gradient(#4a0710, #8f1426 50%, #4a0710);
+            border: 1px solid var(--gold2);
+            box-shadow: inset 0 0 8px #000a, 0 3px 6px #0005;
+            position: relative
+        }
+
+        .od:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background: #0007
+        }
+
+        .od div {
+            transition: transform 2.2s cubic-bezier(.2, .9, .2, 1)
+        }
+
+        .od.lv div {
+            transition-duration: .7s
+        }
+
+        .od span {
+            display: block;
+            height: 44px;
+            font: 700 25px/44px 'Cinzel Decorative';
+            color: var(--gold2)
+        }
+
+        .odg small {
+            display: block;
+            font: 500 10px 'EB Garamond';
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-top: 6px
+        }
+
+        .ev {
+            margin: 22px auto 0;
+            max-width: 300px;
+            padding: 30px 18px 22px;
+            background: #fff6dcaa;
+            border: 2px solid var(--gold);
+            border-radius: 110px 110px 10px 10px;
+            box-shadow: inset 0 0 0 4px #f3e2bd, inset 0 0 0 5px var(--red), 0 8px 20px #5a2e0c33;
+            clip-path: inset(0 50% 0 50%);
+            transition: clip-path 1.6s cubic-bezier(.6, 0, .2, 1) var(--d, 0s)
+        }
+
+        .ev.in {
+            clip-path: inset(-20px)
+        }
+
+        .ev .dd {
+            font: 700 38px/1 'Cinzel Decorative';
+            color: var(--red)
+        }
+
+        .ev .mn {
+            font: 500 11px 'EB Garamond';
+            letter-spacing: 4px;
+            color: var(--gold)
+        }
+
+        .ev h3 {
+            font: 600 28px/2.1 'Noto Nastaliq Urdu';
+            color: var(--cr);
+            margin: 2px 0
+        }
+
+        .ev .en {
+            font: 700 14px 'Cinzel Decorative';
+            letter-spacing: 1px;
+            color: var(--ink)
+        }
+
+        .ev p {
+            font-size: 15px;
+            margin: 4px auto
+        }
+
+        .ev .dc {
+            font-style: italic;
+            color: var(--gold)
+        }
+
+        .jh {
+            width: min(78%, 260px);
+            margin: 20px auto;
+            position: relative
+        }
+
+        .jh svg {
+            width: 100%;
+            display: block
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 8px 4px 0;
+            padding: 13px 22px;
+            background: linear-gradient(#a1111f, #6b0c18);
+            color: #f6d98a;
+            text-decoration: none;
+            font: 700 11px 'Cinzel Decorative';
+            letter-spacing: 2px;
+            border: 1px solid var(--gold2);
+            box-shadow: 0 0 0 3px #6b0c18, 0 5px 12px #0006;
+            position: relative;
+            overflow: hidden
+        }
+
+        .btn:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, transparent 35%, #fff5 50%, transparent 65%);
+            transform: translateX(-130%);
+            animation: shn 3.6s 1s infinite
+        }
+
+        @keyframes shn {
+
+            45%,
+            100% {
+                transform: translateX(130%)
+            }
+        }
+
+        .btn.o {
+            background: transparent;
+            color: var(--cr);
+            box-shadow: 0 0 0 3px var(--par), 0 0 0 4px var(--cr)
+        }
+
+        .end {
+            position: relative;
+            padding-bottom: 20px
+        }
+
+        .dyr {
+            display: flex;
+            justify-content: center;
+            gap: 34px;
+            margin-top: 20px
+        }
+
+        .dyr svg {
+            width: 56px
+        }
+
+        .rod.st2 {
+            position: relative;
+            opacity: 1;
+            left: 0;
+            right: 0;
+            display: block
+        }
+
+        #mu {
+            position: fixed;
+            right: max(14px, calc((100vw - 480px)/2 + 14px));
+            bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 1px solid var(--gold2);
+            background: linear-gradient(#a1111f, #6b0c18);
+            color: #f6d98a;
+            z-index: 65;
+            box-shadow: 0 0 0 3px #6b0c18, 0 5px 16px #000a;
+            display: none
+        }
+
+        @media(min-width:700px) {
+            body {
+                padding: 18px 0
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important
+            }
+
+            .sheet {
+                clip-path: inset(0)
+            }
+
+            .rod,
+            .hero .ink,
+            .st,
+            .fw,
+            .gw,
+            .cue,
+            .rv,
+            .stamp,
+            .ink {
+                opacity: 1 !important
+            }
+
+            .roll,
+            .tie,
+            .wax,
+            #tap {
+                display: none
+            }
+
+            .ev {
+                clip-path: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="pt"></canvas>
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <filter id="rg">
+                <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" result="t" />
+                <feDisplacementMap in="SourceGraphic" in2="t" scale="3" />
+            </filter>
+            <g id="ros"></g>
+            <g id="dy">
+                <ellipse class="gw" cx="30" cy="16" rx="30" ry="26" fill="#ffc24a" fill-opacity=".45"
+                    style="--dl:5.6s" />
+                <path d="M3 24Q30 56 57 24Q30 30 3 24Z" fill="#c4622d" stroke="#e9c46a" stroke-width="1.5" />
+                <path d="M3 24Q30 30 57 24" fill="none" stroke="#e9c46a" stroke-width="2" />
+                <path d="M30 24V20" stroke="#5a2e0c" stroke-width="2" />
+                <g class="fw" style="--dl:5.6s">
+                    <g class="fk">
+                        <path d="M30 21Q20 9 30 -4Q40 9 30 21Z" fill="#ff9d1f" />
+                        <path d="M30 21Q25 12 30 5Q35 12 30 21Z" fill="#fff0a0" />
+                    </g>
+                </g>
+            </g>
+        </defs>
+    </svg>
+
+    <div id="app">
+        <section class="hero" id="hero">
+            <div class="sheet"></div>
+            <div class="rod rt"></div>
+            <div class="rod rb" id="rb"></div>
+            <div class="roll" id="roll">
+                <div class="tie"></div>
+                <div class="wax">A&amp;F</div>
+            </div>
+            <div id="tap">TAP TO UNROLL</div>
+            <div class="toran" id="toran"></div>
+            <div class="hc">
+                <div class="bis ink b1">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                <div class="ur ink b2">دعوتِ نکاح</div>
+                <div class="sm ink b3">The Royal Wedding Invitation of</div>
+                <div class="ink b4 wb" style="margin:10px 0"><span class="foil">Ali</span>
+                    <div class="and">weds</div><span class="foil">Fatima</span>
+                </div>
+                <div class="sm ink b5" style="color:var(--red);letter-spacing:7px">20 · 02 · 2027</div>
+            </div>
+            <svg class="dy l" viewBox="0 0 60 50">
+                <use href="#dy" />
+            </svg><svg class="dy r" viewBox="0 0 60 50">
+                <use href="#dy" />
+            </svg>
+            <div class="cue">SCROLL ↓</div>
+        </section>
+
+        <div class="par">
+            <section class="sec">
+                <div class="fr rv" data-ro="1">
+                    <div class="sm">With the blessings of Allah</div>
+                    <div class="orn">❖</div>
+                    <div class="fam">Mr. &amp; Mrs. Khalid Mahmood</div>
+                    <div class="and">and</div>
+                    <div class="fam">Mr. &amp; Mrs. Tariq Hussain</div>
+                    <p>request the honour of your gracious presence at the auspicious wedding of their beloved children
+                    </p>
+                    <div class="ur" style="font-size:22px;line-height:2.4">آپ کی تشریف آوری ہماری خوشی کا باعث ہوگی
+                    </div>
+                    <div class="orn">❖</div>
+                    <div class="wb"><span class="foil" style="font-size:34px">Ali &amp; Fatima</span></div>
+                </div>
+            </section>
+
+            <section class="sec" id="dsec">
+                <div class="sm rv">The auspicious day</div>
+                <div class="stw rv" id="stw"><svg class="stamp" viewBox="0 0 160 160">
+                        <defs>
+                            <path id="cp" d="M80 80m-56 0a56 56 0 1 1 112 0a56 56 0 1 1-112 0" />
+                        </defs>
+                        <circle cx="80" cy="80" r="76" fill="none" stroke="currentColor" stroke-width="3" />
+                        <circle cx="80" cy="80" r="70" fill="none" stroke="currentColor" stroke-width="1" />
+                        <circle cx="80" cy="80" r="44" fill="none" stroke="currentColor" stroke-width="1" /><text
+                            font-family="Cinzel Decorative" font-weight="700" font-size="11" fill="currentColor">
+                            <textPath href="#cp" textLength="345" lengthAdjust="spacing">WEDDING INVITATION ✦ Ali
+                                &amp; Fatima ✦ </textPath>
+                        </text><text x="80" y="88" text-anchor="middle" font-family="Cinzel Decorative"
+                            font-weight="700" font-size="38" fill="currentColor">20</text><text x="80" y="106"
+                            text-anchor="middle" font-family="Cinzel Decorative" font-weight="700" font-size="11"
+                            fill="currentColor" letter-spacing="2">FEB 2027</text><text x="80" y="58"
+                            text-anchor="middle" font-family="Cinzel Decorative" font-size="8" fill="currentColor"
+                            letter-spacing="2">SATURDAY</text>
+                    </svg><i class="rip"></i></div>
+                <div class="sm rv" style="letter-spacing:3px">12 Sha’ban 1448 AH</div>
+                <div class="orn rv">❖</div>
+                <h2 class="rv">Countdown to Joy</h2>
+                <div class="odw rv" id="odw"></div>
+            </section>
+
+            <section class="sec">
+                <div class="sm rv">The celebrations</div>
+                <h2 class="rv" style="--d:.1s">Three Days of Festivity</h2>
+                <div class="ev" style="--d:.1s">
+                    <div class="dd">18</div>
+                    <div class="mn">FEBRUARY · THURSDAY</div>
+                    <h3>مہندی</h3>
+                    <div class="en">MEHNDI</div>
+                    <p>7:00 PM onwards<br>Rose Garden Hall, Karachi</p>
+                    <div class="dc">Dress · Yellow &amp; Green</div>
+                </div>
+                <div class="ev" style="--d:.1s">
+                    <div class="dd">20</div>
+                    <div class="mn">FEBRUARY · SATURDAY</div>
+                    <h3>نکاح و بارات</h3>
+                    <div class="en">NIKKAH &amp; BARAT</div>
+                    <p>7:30 PM onwards<br>Grand Pearl Banquet, Karachi</p>
+                    <div class="dc">Dress · Maroon &amp; Gold</div>
+                </div>
+                <div class="ev" style="--d:.1s">
+                    <div class="dd">21</div>
+                    <div class="mn">FEBRUARY · SUNDAY</div>
+                    <h3>ولیمہ</h3>
+                    <div class="en">WALIMA</div>
+                    <p>8:00 PM onwards<br>Grand Pearl Banquet, Karachi</p>
+                    <div class="dc">Dress · Formal / Traditional</div>
+                </div>
+            </section>
+
+            <section class="sec">
+                <div class="fr rv" data-ro="1">
+                    <div class="bis" style="font-size:25px;line-height:2.1">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ
+                        أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</div>
+                    <div class="orn">✺</div>
+                    <p style="font-style:italic">“And among His signs is that He created for you spouses from among
+                        yourselves, that you may find tranquility in them, and placed between you affection and mercy.”
+                    </p>
+                    <div class="sm">Qur’an · 30:21</div>
+                </div>
+            </section>
+
+            <section class="sec">
+                <div class="sm rv">Place of celebration</div>
+                <h2 class="rv" style="--d:.1s">Grand Pearl Banquet</h2>
+                <div class="jh rv" style="--d:.2s"><svg viewBox="0 0 260 300">
+                        <defs>
+                            <linearGradient id="jg" x2="0" y2="1">
+                                <stop offset="0" stop-color="#8f1426" />
+                                <stop offset="1" stop-color="#4a0710" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M10 300V120Q10 20 130 8Q250 20 250 120V300Z" fill="url(#jg)" stroke="#9a6b1f"
+                            stroke-width="3" />
+                        <path d="M28 300V126Q28 40 130 28Q232 40 232 126V300Z" fill="#f3e2bd" stroke="#e9c46a"
+                            stroke-width="2" />
+                        <path d="M52 300V140Q52 70 130 58Q208 70 208 140V300Z" fill="#ffd98a" />
+                        <circle cx="130" cy="150" r="70" fill="#ffeab0" />
+                        <path d="M80 240V190Q130 120 180 190V240Z" fill="#efdcae" stroke="#9a6b1f" />
+                        <path d="M130 128V110" stroke="#9a6b1f" stroke-width="2" />
+                        <path d="M110 240V205Q130 180 150 205V240Z" fill="#6b0c18" />
+                        <path d="M40 260H220V300H40Z" fill="#c9a45d" />
+                        <path d="M52 258H208M60 270H200M68 282H192" stroke="#8a5d17" stroke-width="1.2" />
+                        <path d="M50 40L130 8L210 40" fill="none" stroke="#e9c46a" stroke-width="1"
+                            stroke-dasharray="2 6" />
+                    </svg></div>
+                <p class="rv">Karachi, Pakistan</p>
+                <a class="btn rv" href="https://www.google.com/maps/search/?api=1&query=Grand+Pearl+Banquet+Karachi"
+                    target="_blank" rel="noopener">DIRECTIONS</a>
+                <a class="btn o rv"
+                    href="https://wa.me/923001234567?text=Assalamualaikum%2C%20I%20will%20attend%20your%20wedding."
+                    target="_blank" rel="noopener">RSVP</a>
+            </section>
+
+            <section class="sec end" id="end">
+                <div class="orn rv">❖</div>
+                <div class="ur rv" style="font-size:30px">آپ کی آمد کے منتظر</div>
+                <p class="rv">Eagerly awaiting your arrival. Your presence, prayers and blessings will always be
+                    cherished.</p>
+                <div class="wb rv"><span class="foil" style="font-size:30px">Ali &amp; Fatima</span></div>
+                <div class="sm rv" style="margin-top:8px;color:var(--red)">20 · 02 · 2027</div>
+                <div class="dyr rv"><svg viewBox="0 0 60 50">
+                        <use href="#dy" />
+                    </svg><svg viewBox="0 0 60 50">
+                        <use href="#dy" />
+                    </svg><svg viewBox="0 0 60 50">
+                        <use href="#dy" />
+                    </svg></div>
+            </section>
+            <div class="rod st2"></div>
+        </div>
+    </div>
+    <button id="mu" aria-label="Toggle music">♫</button>
+
+    <script>
+        /* EDIT ME */
+        const CFG = { date: '2027-02-20T19:30:00+05:00' };
+        const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+        document.documentElement.classList.add('lock');
+        /* rosette */
+        (function () {
+            let s = ''; for (let i = 0; i < 8; i++)s += `<ellipse cx="22" cy="9" rx="4.5" ry="9" fill="#e9c46a" stroke="#9a6b1f" stroke-width=".8" transform="rotate(${i * 45} 22 22)"/>`; s += '<circle cx="22" cy="22" r="6" fill="#b3141f" stroke="#e9c46a"/><circle cx="22" cy="22" r="2" fill="#fff0a0"/>'; $('#ros').innerHTML = s;
+            $$('[data-ro]').forEach(f => 'abcd'.split('').forEach(c => f.insertAdjacentHTML('beforeend', `<svg class="ro ${c}" viewBox="0 0 44 44"><use href="#ros"/></svg>`)))
+        })();
+        /* toran */
+        (function () { const n = 11; let h = ''; for (let i = 0; i < n; i++) { const k = 2 + (i % 2) * 2 + (i % 4 == 1 ? 1 : 0); h += `<div class="st" style="left:${i * 100 / (n - 1)}%;--dl:${3 + i * .11}s"><div style="--sd:${(i * .37) % 2}s"><i></i>${'<b class="mg"></b>'.repeat(k)}<b class="bl"></b></div></div>` } $('#toran').innerHTML = h })();
+        /* petals */
+        const cv = $('#pt'), x = cv.getContext('2d'); let W, H, P = []; const rs = () => { W = cv.width = innerWidth; H = cv.height = innerHeight }; rs(); addEventListener('resize', rs);
+        const col = ['#f6a623', '#ffcf4a', '#d9740f', '#c4222f', '#ffe27a'];
+        function pet(b, px, py) { const a = Math.random() * 6.283, s = b ? 3 + Math.random() * 7 : 0; return { x: b ? px : Math.random() * W, y: b ? py : -20 - Math.random() * H * .5, vx: b ? Math.cos(a) * s : 0, vy: b ? Math.sin(a) * s - 5 : .5 + Math.random() * .8, r: 4 + Math.random() * 5, a: Math.random() * 6.28, w: Math.random() * .05 + .01, c: col[Math.random() * 5 | 0], ph: Math.random() * 6.28, l: b ? 1 : 0 } }
+        for (let i = 0; i < 14; i++)P.push(pet());
+        const burst = (px, py, n = 60) => { for (let i = 0; i < n; i++)P.push(pet(1, px, py)) };
+        (function f(t) {
+            x.clearRect(0, 0, W, H); P.forEach((p, i) => {
+                p.vx *= p.l ? .96 : 1; p.x += p.vx + Math.sin(t / 900 + p.ph) * .5; p.vy += p.l ? .12 : 0; p.y += p.vy; if (p.l && p.vy > 1.1) { p.vy = 1.1; p.l = 0 } p.a += p.w + .01; if (p.y > H + 20) { if (i < 14) { p.y = -20; p.x = Math.random() * W } else P.splice(i, 1) }
+                x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.fillStyle = p.c; x.globalAlpha = .9; x.beginPath(); x.ellipse(0, 0, p.r, p.r * .6, 0, 0, 6.28); x.fill(); x.restore()
+            }); requestAnimationFrame(f)
+        })(0);
+        /* open */
+        $('#hero').addEventListener('click', function () { if (this.classList.contains('go')) return; this.classList.add('go'); $('#mu').style.display = 'block'; setTimeout(() => burst(innerWidth / 2, innerHeight / 2, 70), 1800); setTimeout(() => { $('#rb').classList.add('done'); document.documentElement.classList.remove('lock') }, 4000) });
+        /* reveal */
+        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const t = e.target; t.classList.add('in'); if (t.id === 'stw') { setTimeout(() => { $('#dsec').classList.add('thud'); burst(innerWidth / 2, innerHeight * .45, 40) }, 1100) } if (t.id === 'odw') roll(); if (t.id === 'end') burst(innerWidth / 2, innerHeight * .3, 50); io.unobserve(t) } }), { threshold: .25 });
+        $$('.rv,.ev').forEach(e => io.observe(e)); io.observe($('#end'));
+        /* odometers */
+        const G = [['DAYS', 3], ['HOURS', 2], ['MINUTES', 2], ['SECONDS', 2]]; let ds = [], on = 0;
+        $('#odw').innerHTML = G.map(([l, n]) => `<div class="odg"><div>${Array.from({ length: n }, () => `<div class="od"><div>${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map(d => `<span>${d}</span>`).join('')}</div></div>`).join('')}</div><small>${l}</small></div>`).join('');
+        $$('.od').forEach(o => ds.push({ e: o.firstChild, o, v: 0 }));
+        function val() { const d = Math.max(0, new Date(CFG.date) - new Date()), v = [Math.floor(d / 864e5), Math.floor(d / 36e5) % 24, Math.floor(d / 6e4) % 60, Math.floor(d / 1e3) % 60], out = []; G.forEach(([l, n], i) => String(v[i]).padStart(n, '0').split('').forEach(c => out.push(+c))); return out }
+        function set(i, d, snap) { const c = ds[i]; if (c.v === 9 && d === 0 && on) { c.e.style.transform = 'translateY(-440px)'; setTimeout(() => { c.e.style.transition = 'none'; c.e.style.transform = 'translateY(0)'; c.e.offsetHeight; c.e.style.transition = '' }, 750) } else c.e.style.transform = `translateY(${-d * 44}px)`; c.v = d }
+        function roll() { on = 1; val().forEach((d, i) => setTimeout(() => set(i, d), i * 140)); setTimeout(() => ds.forEach(c => c.o.classList.add('lv')), 3200) }
+        setInterval(() => { if (on) val().forEach((d, i) => { if (ds[i].v !== d) set(i, d) }) }, 1000);
+        /* music: tanpura-style drone */
+        let ac, pl = 0, iv, idx = 0; const mu = $('#mu'), F = 130.81, seq = [1.5, 2, 2, 1];
+        function pk(f) { const n = ac.currentTime, fl = ac.createBiquadFilter(), g = ac.createGain(); fl.type = 'lowpass'; fl.frequency.setValueAtTime(1800, n); fl.frequency.exponentialRampToValueAtTime(380, n + 4); g.gain.setValueAtTime(0, n); g.gain.linearRampToValueAtTime(.07, n + .03); g.gain.exponentialRampToValueAtTime(.0006, n + 5); fl.connect(g); g.connect(ac.destination);[-5, 5].forEach(dt => { const o = ac.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f; o.detune.value = dt; o.connect(fl); o.start(n); o.stop(n + 5.2) }) }
+        mu.addEventListener('click', async () => { if (!pl) { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); await ac.resume(); const go = () => { pk(F * seq[idx++ % 4]); }; go(); iv = setInterval(go, 1250) } else clearInterval(iv); pl = !pl; mu.textContent = pl ? 'Ⅱ' : '♫' });
+    </script>
+</body>
+
+</html>
